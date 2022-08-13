@@ -23,6 +23,7 @@ class Calculator:
 
         self.total_expression = ""
         self.current_expression = ""
+        self.system = 0
         self.display_frame = self.create_display_frame()
 
         self.total_label, self.label = self.create_display_labels()
@@ -33,6 +34,7 @@ class Calculator:
             1: (3, 1), 2: (3, 2), 3: (3, 3),
             0: (4, 2), '.': (4, 1)
         }
+        self.conversion_table = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A' , 'B', 'C', 'D', 'E', 'F']
         self.operations = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
         self.buttons_frame = self.create_buttons_frame()
 
@@ -61,6 +63,10 @@ class Calculator:
         self.create_sin_button()
         self.create_cos_button()
         self.create_tan_button()
+        self.create_del_button()
+        self.create_bin_button()
+        self.create_oct_button()
+        self.create_hex_button()
 
     def create_display_labels(self):
         total_label = tk.Label(self.display_frame, text=self.total_expression, anchor=tk.E, bg=LIGHT_GRAY,
@@ -158,6 +164,63 @@ class Calculator:
         button = tk.Button(self.buttons_frame, text="tan()", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
                            borderwidth=0, command=self.tan)
         button.grid(row=3, column=0, sticky=tk.NSEW)
+
+    def delete(self): 
+        self.current_expression = self.current_expression[:-1]
+        self.update_label()
+
+    def create_del_button(self): 
+        button = tk.Button(self.buttons_frame, text="\u2190", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.delete)
+        button.grid(row=0, column=0, sticky=tk.NSEW) 
+
+    def bin(self):
+        b = '' 
+        n = int(self.current_expression)
+        while n > 0:
+            b = str(n % 2) + b
+            n = n // 2
+            bin.append(b)
+        self.current_expression = b
+        self.update_label()
+    
+    def oct(self):
+        o = '' 
+        n = int(self.current_expression)
+        while n > 0:
+            o = str(n % 8) + o
+            n = n // 8
+            bin.append(o)
+        self.current_expression = o
+        self.update_label()
+
+    def hex(self):
+        h = '' 
+        n = int(self.current_expression)
+        while(n > 0):
+            remainder = n % 16
+            h = self.conversion_table[remainder] + h
+            n = n // 16
+        self.current_expression = h
+        self.update_label()
+
+
+
+    def create_bin_button(self): 
+        button = tk.Button(self.buttons_frame, text="bin()", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.bin)
+        button.grid(row=0, column=5, sticky=tk.NSEW) 
+
+    def create_oct_button(self): 
+        button = tk.Button(self.buttons_frame, text="oct()", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.oct)
+        button.grid(row=1, column=5, sticky=tk.NSEW) 
+
+    def create_hex_button(self): 
+        button = tk.Button(self.buttons_frame, text="hex()", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.hex)
+        button.grid(row=2, column=5, sticky=tk.NSEW) 
+
 
     def evaluate(self):
         self.total_expression += self.current_expression
