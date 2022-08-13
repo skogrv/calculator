@@ -1,4 +1,6 @@
 import tkinter as tk
+import math
+from venv import create
 
 LARGE_FONT_STYLE = ("Arial", 40, "bold")
 SMALL_FONT_STYLE = ("Arial", 16)
@@ -56,6 +58,9 @@ class Calculator:
         self.create_equals_button()
         self.create_square_button()
         self.create_sqrt_button()
+        self.create_sin_button()
+        self.create_cos_button()
+        self.create_tan_button()
 
     def create_display_labels(self):
         total_label = tk.Label(self.display_frame, text=self.total_expression, anchor=tk.E, bg=LIGHT_GRAY,
@@ -127,6 +132,32 @@ class Calculator:
                            borderwidth=0, command=self.sqrt)
         button.grid(row=0, column=3, sticky=tk.NSEW)
     
+    def sin(self):
+        self.current_expression = str(math.sin(math.radians(float(self.current_expression))))
+        self.update_label()
+
+    def create_sin_button(self):
+        button = tk.Button(self.buttons_frame, text="sin()", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.sin)
+        button.grid(row=1, column=0, sticky=tk.NSEW)
+    
+    def cos(self): 
+        self.current_expression = str(math.cos(math.radians(float(self.current_expression))))
+        self.update_label()
+
+    def create_cos_button(self):
+        button = tk.Button(self.buttons_frame, text="cos()", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.cos)
+        button.grid(row=2, column=0, sticky=tk.NSEW)
+    
+    def tan(self): 
+        self.current_expression = str(math.tan(math.radians(float(self.current_expression))))
+        self.update_label()
+
+    def create_tan_button(self):
+        button = tk.Button(self.buttons_frame, text="tan()", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.tan)
+        button.grid(row=3, column=0, sticky=tk.NSEW)
 
     def evaluate(self):
         self.total_expression += self.current_expression
