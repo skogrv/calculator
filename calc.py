@@ -61,6 +61,7 @@ class Calculator:
         self.create_sin_button()
         self.create_cos_button()
         self.create_tan_button()
+        self.create_del_button()
 
     def create_display_labels(self):
         total_label = tk.Label(self.display_frame, text=self.total_expression, anchor=tk.E, bg=LIGHT_GRAY,
@@ -158,6 +159,15 @@ class Calculator:
         button = tk.Button(self.buttons_frame, text="tan()", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
                            borderwidth=0, command=self.tan)
         button.grid(row=3, column=0, sticky=tk.NSEW)
+
+    def delete(self): 
+        self.current_expression = self.current_expression[:-1]
+        self.update_label()
+
+    def create_del_button(self): 
+        button = tk.Button(self.buttons_frame, text="\u2190", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.delete)
+        button.grid(row=0, column=0, sticky=tk.NSEW)    
 
     def evaluate(self):
         self.total_expression += self.current_expression
