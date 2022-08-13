@@ -23,6 +23,7 @@ class Calculator:
 
         self.total_expression = ""
         self.current_expression = ""
+        self.system = 0
         self.display_frame = self.create_display_frame()
 
         self.total_label, self.label = self.create_display_labels()
@@ -33,6 +34,7 @@ class Calculator:
             1: (3, 1), 2: (3, 2), 3: (3, 3),
             0: (4, 2), '.': (4, 1)
         }
+        self.conversion_table = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A' , 'B', 'C', 'D', 'E', 'F']
         self.operations = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
         self.buttons_frame = self.create_buttons_frame()
 
@@ -174,7 +176,6 @@ class Calculator:
 
     def bin(self):
         b = '' 
-        bin = []
         n = int(self.current_expression)
         while n > 0:
             b = str(n % 2) + b
@@ -184,25 +185,23 @@ class Calculator:
         self.update_label()
     
     def oct(self):
-        b = '' 
-        bin = []
+        o = '' 
         n = int(self.current_expression)
         while n > 0:
-            b = str(n % 8) + b
+            o = str(n % 8) + o
             n = n // 8
-            bin.append(b)
-        self.current_expression = b
+            bin.append(o)
+        self.current_expression = o
         self.update_label()
 
     def hex(self):
-        b = '' 
-        bin = []
+        h = '' 
         n = int(self.current_expression)
-        while n > 0:
-            b = str(n % 16) + b
+        while(n > 0):
+            remainder = n % 16
+            h = self.conversion_table[remainder] + h
             n = n // 16
-            bin.append(b)
-        self.current_expression = b
+        self.current_expression = h
         self.update_label()
 
 
@@ -214,7 +213,7 @@ class Calculator:
 
     def create_oct_button(self): 
         button = tk.Button(self.buttons_frame, text="oct()", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
-                           borderwidth=0, command=self.bin)
+                           borderwidth=0, command=self.oct)
         button.grid(row=1, column=5, sticky=tk.NSEW) 
 
     def create_hex_button(self): 
